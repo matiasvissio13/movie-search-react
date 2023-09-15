@@ -1,18 +1,14 @@
-// import { searchMovies } from './services/movies.js'
-import { MovieList } from './components/MovieList'
+import { Movies } from './components/Movies'
 import { Header } from './components/Header'
-// import { Search } from './mocks/with-results.json'
-
-
-// const newSearchMovie = await searchMovies({ search })
-
-// console.log(Search)
+import { useMovies } from './hooks/useMovies'
 
 function App() {
+  const { movies, searchFun } = useMovies()
+
   return (
     <>
-      <Header />
-      <MovieList />
+      <Header searchFun={searchFun} />
+      <Movies movies={movies} />
     </>
   )
 }
