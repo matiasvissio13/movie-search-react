@@ -1,27 +1,31 @@
 import { useState, useEffect } from 'react'
-import { searchMovies } from '../services/movies'
+import { queryMovies } from '../services/movies'
 
 export function useMovies() {
     const [movies, setMovies] = useState([]);
-    const [search, setSearch] = useState('fast')
-        
-    const searchFun = (search) => {
-        console.log(search)
-        setSearch(search)
+    const [query, setQuery] = useState('batman')
+    const [loading, setLoading] = useState(false)
+
+    const queryFun = (query) => {
+        setQuery(query)
     }
 
     useEffect(() => {
         async function fetchData() {
+
             try {
-                const moviesData = await searchMovies({ search })
+                setLoading(true)
+                const moviesData = await queryMovies({ query })
                 setMovies(moviesData)
             } catch (error) {
                 console.error('Error searching movies:', error)
+            } finally {
+                setLoading(false)
             }
         }
 
         fetchData()
-    }, [search]);
+    }, [query]);
 
-    return { movies, searchFun }
+    return { movies, queryFun, loading }
 }

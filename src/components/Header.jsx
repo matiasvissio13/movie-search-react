@@ -1,27 +1,33 @@
-import { useState } from "react"
+import { useState } from 'react'
+// import { useSearch } from '../hooks/useSearch'
 
-export function Header({ searchFun }) {
+export function Header({ queryFun }) {
+
+    // const { search, setSearch, error } = useSearch()
     const [search, setSearch] = useState('')
 
-    const handleSearch = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault()
-        searchFun(search)
-        console.log(`handleSearch: ${search}`)
+        // const fields = new window.FormData(e.target)
+        // const query = fields.get('query')
+        queryFun(search)
     }
 
     const handleChange = (e) => {
-        const newSearch = e.target.value
-        setSearch(newSearch)
-        console.log(`handleChange: ${newSearch}`)
+        setSearch(e.target.value)
     }
 
     return (
-        <header className='flex flex-col items-center pt-10 pb-16 gap-10'>
-            <form onSubmit={handleSearch} className="flex items-center gap-5">
-                <input onChange={handleChange} value={search} className="h-10 w-full sm:w-[300px] rounded px-3" type="search" placeholder="Batman, El Conjuro, Matrix..." />
-
+        <header className='flex flex-col items-center pt-10 pb-14 gap-4'>
+            <form onSubmit={handleSubmit} className="flex items-center gap-5">
+                <input onChange={handleChange} value={search} name='search'
+                    className='h-10 w-full sm:w-[300px] rounded px-3'
+                    type="search" placeholder="Batman, Saw, Matrix..." />
                 <button className="bg-blue-900 hover:bg-blue-800 rounded py-2 px-4" type='submit'>Search</button>
             </form>
+            {/* <div className='h-4'>
+                {error && <p className="text-center text-red-700 text-sm">{error}</p>}
+            </div> */}
         </header>
     )
 }
